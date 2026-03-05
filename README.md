@@ -1,36 +1,135 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Triangle UI
+
+A portable component library for Polkadot projects, built with Tailwind CSS, Radix UI, and CSS variables.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev       # Development server at localhost:3000
+npm run build     # Production build
+npm run lint      # ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── components/          # Portable component library (copy this folder)
+│   ├── ui/              # 20+ UI components
+│   ├── styles/
+│   │   ├── globals.css          # CSS variables (light + dark themes)
+│   │   └── tailwind-preset.js   # Tailwind preset with design tokens
+│   └── lib/
+│       └── utils.ts             # cn() utility (clsx + tailwind-merge)
+├── app/                 # Next.js showcase app
+└── showcase/            # Component demo pages
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Using Components in Another Project
 
-## Learn More
+The `src/components/` folder is designed to be copied into other projects. Here's how to integrate it:
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Install dependencies
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install clsx tailwind-merge class-variance-authority tailwindcss-animate material-icons lucide-react
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Radix UI primitives (install only what you need):
 
-## Deploy on Vercel
+```bash
+npm install @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-select @radix-ui/react-tabs @radix-ui/react-tooltip @radix-ui/react-popover @radix-ui/react-switch @radix-ui/react-toggle @radix-ui/react-avatar @radix-ui/react-label @radix-ui/react-separator @radix-ui/react-slot
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 2. Copy the components folder
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Copy `src/components/` into your project.
+
+### 3. Add the Tailwind preset
+
+In your `tailwind.config.js`:
+
+```js
+module.exports = {
+  presets: [require('./path/to/components/styles/tailwind-preset')],
+  content: [
+    './path/to/components/**/*.{js,ts,jsx,tsx}',
+    // ...your other content paths
+  ],
+}
+```
+
+The preset includes `tailwindcss-animate` as a plugin — no need to add it separately.
+
+### 4. Import the CSS variables
+
+In your global CSS file (before the `@tailwind` directives):
+
+```css
+@import "./path/to/components/styles/globals.css";
+```
+
+This provides all CSS variables for light/dark themes plus base styles (border colors, background, text color, font smoothing, and text selection).
+
+### 5. Import Material Icons (required by SearchBar)
+
+The `SearchBar` component uses Material Icons. Add the CSS import to your global stylesheet:
+
+```css
+@import "material-icons/iconfont/round.css";
+```
+
+### 6. Set up dark mode
+
+Add the `dark` class to your `<html>` element to enable dark mode. The CSS variables will switch automatically.
+
+## Components
+
+| Component | File | Dependencies |
+|-----------|------|-------------|
+| Alert | `alert.tsx` | — |
+| Avatar | `avatar.tsx` | `@radix-ui/react-avatar` |
+| Badge | `badge.tsx` | `class-variance-authority` |
+| Button | `button.tsx` | `@radix-ui/react-slot`, `class-variance-authority` |
+| Card | `card.tsx` | — |
+| Dialog | `dialog.tsx` | `@radix-ui/react-dialog`, `lucide-react` |
+| Dropdown Menu | `dropdown-menu.tsx` | `@radix-ui/react-dropdown-menu` |
+| Icon Box | `icon-box.tsx` | `class-variance-authority` |
+| Input | `input.tsx` | — |
+| Label | `label.tsx` | `@radix-ui/react-label`, `class-variance-authority` |
+| Popover | `popover.tsx` | `@radix-ui/react-popover` |
+| Search Bar | `search-bar.tsx` | `material-icons` |
+| Select | `select.tsx` | `@radix-ui/react-select`, `lucide-react` |
+| Separator | `separator.tsx` | `@radix-ui/react-separator` |
+| Skeleton | `skeleton.tsx` | — |
+| Switch | `switch.tsx` | `@radix-ui/react-switch` |
+| Tabs | `tabs.tsx` | `@radix-ui/react-tabs` |
+| Textarea | `textarea.tsx` | — |
+| Toggle | `toggle.tsx` | `@radix-ui/react-toggle`, `class-variance-authority` |
+| Tooltip | `tooltip.tsx` | `@radix-ui/react-tooltip` |
+
+## Design Tokens
+
+All colors are defined as CSS variables and mapped through the Tailwind preset:
+
+- `background` / `foreground` — page background and text
+- `primary` / `primary-foreground` — primary actions
+- `secondary` / `secondary-foreground` — secondary surfaces
+- `muted` / `muted-foreground` — subdued elements
+- `accent` / `accent-foreground` — brand accent (Polkadot pink)
+- `card` / `card-foreground` — card surfaces
+- `popover` / `popover-foreground` — popover surfaces
+- `destructive` / `destructive-foreground` — error/danger states
+- `success` / `success-foreground` — success states
+- `warning` / `warning-foreground` — warning states
+- `overlay` — modal/dialog overlays
+- `border`, `input`, `ring` — borders, inputs, focus rings
+
+## Fonts
+
+The preset expects three CSS font variables:
+
+- `--font-sans` — Body text (e.g., DM Sans)
+- `--font-serif` — Headlines (e.g., DM Serif Display)
+- `--font-mono` — Code (e.g., JetBrains Mono)
