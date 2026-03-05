@@ -4,14 +4,14 @@ import "./globals.css"
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-sans-face",
   display: "swap",
   weight: ["300", "400", "500", "600", "700"],
 })
 
 const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
-  variable: "--font-serif",
+  variable: "--font-serif-face",
   display: "swap",
   weight: ["400"],
   style: ["normal", "italic"],
@@ -19,7 +19,7 @@ const dmSerif = DM_Serif_Display({
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-mono-face",
   display: "swap",
   weight: ["400", "500", "600"],
 })
@@ -41,7 +41,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                if (localStorage.theme === 'light') {
+                  document.documentElement.classList.remove('dark')
+                } else if (localStorage.theme === 'dark' || !('theme' in localStorage)) {
                   document.documentElement.classList.add('dark')
                 } else {
                   document.documentElement.classList.remove('dark')

@@ -1,0 +1,179 @@
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* ── Colors (semantic, referencing CSS vars from globals.css) ── */
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-overlay: hsl(var(--overlay));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+
+  /* Grey scale */
+  --color-grey-50: #fafaf9;
+  --color-grey-100: #f5f5f4;
+  --color-grey-200: #e7e5e4;
+  --color-grey-300: #d6d3d1;
+  --color-grey-400: #a8a29e;
+  --color-grey-500: #78716c;
+  --color-grey-600: #57534e;
+  --color-grey-700: #44403c;
+  --color-grey-800: #292524;
+  --color-grey-900: #1c1917;
+  --color-grey-925: #151413;
+  --color-grey-950: #0f0f0f;
+
+  /* Brand extended */
+  --color-yellow: #FFD552;
+  --color-cream: #F5EDD8;
+  --color-silver: #EBEBEB;
+  --color-ink: #000000;
+  --color-ink-secondary: rgba(0, 0, 0, 0.66);
+  --color-ink-muted: rgba(0, 0, 0, 0.24);
+
+  /* ── Font families ── */
+  --font-sans: var(--font-sans-face), system-ui, sans-serif;
+  --font-serif: var(--font-serif-face), Georgia, serif;
+  --font-mono: var(--font-mono-face), "Courier New", monospace;
+  --font-inter: Inter, system-ui, sans-serif;
+
+  /* ── Font sizes (--text-* namespace for Tailwind v4) ── */
+  --text-display-1: clamp(4rem, 8vw + 2rem, 8rem);
+  --text-display-1--line-height: 1.1;
+  --text-display-1--letter-spacing: -0.03em;
+
+  --text-display-2: clamp(3rem, 6vw + 1.5rem, 6rem);
+  --text-display-2--line-height: 1.1;
+  --text-display-2--letter-spacing: -0.03em;
+
+  --text-display-3: clamp(2.5rem, 5vw + 1rem, 5rem);
+  --text-display-3--line-height: 1.15;
+  --text-display-3--letter-spacing: -0.02em;
+
+  --text-h1: clamp(2.5rem, 4vw + 1rem, 4rem);
+  --text-h1--line-height: 1.2;
+  --text-h1--letter-spacing: -0.02em;
+
+  --text-h2: clamp(2rem, 3vw + 0.75rem, 3rem);
+  --text-h2--line-height: 1.25;
+  --text-h2--letter-spacing: -0.02em;
+
+  --text-h3: clamp(1.75rem, 2.5vw + 0.5rem, 2.5rem);
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.01em;
+
+  --text-h4: clamp(1.5rem, 2vw + 0.5rem, 2rem);
+  --text-h4--line-height: 1.3;
+  --text-h4--letter-spacing: -0.01em;
+
+  --text-body-lg: clamp(1.125rem, 1vw + 0.5rem, 1.25rem);
+  --text-body-lg--line-height: 1.625;
+
+  --text-base: 1rem;
+  --text-base--line-height: 1.625;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+
+  --text-caption10: 0.625rem;
+  --text-caption10--line-height: 1rem;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.3;
+
+  --text-code: 0.875rem;
+  --text-code--line-height: 1.7;
+
+  /* ── Border radius ── */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* ── Shadows ── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.16), 0 8px 16px rgba(0, 0, 0, 0.08);
+  --shadow-brutal-hint: 2px 2px 0 0 rgba(0, 0, 0, 0.08);
+  --shadow-brutal-hint-lg: 3px 3px 0 0 rgba(0, 0, 0, 0.12);
+  --shadow-focus: 0 0 0 4px rgba(255, 40, 103, 0.08);
+  --shadow-focus-strong: 0 0 0 4px rgba(255, 40, 103, 0.16);
+  --shadow-accent-sm: 0 2px 8px rgba(255, 40, 103, 0.2);
+  --shadow-accent-md: 0 4px 16px rgba(255, 40, 103, 0.3);
+  --shadow-accent-lg: 0 8px 32px rgba(255, 40, 103, 0.4);
+
+  /* ── Easing ── */
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ── Animations ── */
+  --animate-fade-up: fade-up 0.5s ease-out;
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-in-right: slide-in-right 0.5s ease-out;
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+/* ── Keyframes (outside @theme) ── */
+@keyframes fade-up {
+  0% { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slide-in-right {
+  0% { opacity: 0; transform: translateX(24px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}

@@ -19,7 +19,7 @@ src/
 │   ├── ui/              # 20+ UI components
 │   ├── styles/
 │   │   ├── globals.css          # CSS variables (light + dark themes)
-│   │   └── tailwind-preset.js   # Tailwind preset with design tokens
+│   │   └── tailwind-preset.css  # Tailwind v4 theme (design tokens, animations, dark mode)
 │   └── lib/
 │       └── utils.ts             # cn() utility (clsx + tailwind-merge)
 ├── app/                 # Next.js showcase app
@@ -33,7 +33,8 @@ The `src/components/` folder is designed to be copied into other projects. Here'
 ### 1. Install dependencies
 
 ```bash
-npm install clsx tailwind-merge class-variance-authority tailwindcss-animate material-icons lucide-react
+npm install clsx tailwind-merge class-variance-authority tw-animate-css material-icons lucide-react
+npm install -D tailwindcss@^4 @tailwindcss/postcss@^4
 ```
 
 Radix UI primitives (install only what you need):
@@ -46,39 +47,44 @@ npm install @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react
 
 Copy `src/components/` into your project.
 
-### 3. Add the Tailwind preset
+### 3. Configure PostCSS
 
-In your `tailwind.config.js`:
+In your `postcss.config.mjs`:
 
 ```js
-module.exports = {
-  presets: [require('./path/to/components/styles/tailwind-preset')],
-  content: [
-    './path/to/components/**/*.{js,ts,jsx,tsx}',
-    // ...your other content paths
-  ],
-}
+export default {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
 ```
 
-The preset includes `tailwindcss-animate` as a plugin — no need to add it separately.
+No `tailwind.config.js` is needed — Tailwind v4 uses CSS-first configuration.
 
-### 4. Import the CSS variables
+### 4. Import everything in your global CSS
 
-In your global CSS file (before the `@tailwind` directives):
+In your global CSS file:
 
 ```css
+@import "tailwindcss";
+@import "./path/to/components/styles/tailwind-preset.css";
 @import "./path/to/components/styles/globals.css";
-```
-
-This provides all CSS variables for light/dark themes plus base styles (border colors, background, text color, font smoothing, and text selection).
-
-### 5. Import Material Icons (required by SearchBar)
-
-The `SearchBar` component uses Material Icons. Add the CSS import to your global stylesheet:
-
-```css
 @import "material-icons/iconfont/round.css";
 ```
+
+The preset CSS file includes the full design system (colors, typography, shadows, animations, dark mode variant) and `tw-animate-css`. The globals CSS provides light/dark theme variables and base styles.
+
+### 5. Set up fonts
+
+The preset expects three CSS custom properties for font families. In Next.js, set them when loading fonts:
+
+```tsx
+const dmSans = DM_Sans({ variable: "--font-sans-face", ... })
+const dmSerif = DM_Serif_Display({ variable: "--font-serif-face", ... })
+const jetbrainsMono = JetBrains_Mono({ variable: "--font-mono-face", ... })
+```
+
+The `-face` suffix avoids collisions with Tailwind v4's `--font-sans`/`--font-serif`/`--font-mono` theme namespace.
 
 ### 6. Set up dark mode
 
@@ -128,8 +134,8 @@ All colors are defined as CSS variables and mapped through the Tailwind preset:
 
 ## Fonts
 
-The preset expects three CSS font variables:
+The preset expects three CSS font variables (with `-face` suffix to avoid Tailwind v4 namespace collisions):
 
-- `--font-sans` — Body text (e.g., DM Sans)
-- `--font-serif` — Headlines (e.g., DM Serif Display)
-- `--font-mono` — Code (e.g., JetBrains Mono)
+- `--font-sans-face` — Body text (e.g., DM Sans)
+- `--font-serif-face` — Headlines (e.g., DM Serif Display)
+- `--font-mono-face` — Code (e.g., JetBrains Mono)
